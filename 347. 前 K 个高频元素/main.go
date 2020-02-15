@@ -24,28 +24,28 @@ https://leetcode-cn.com/problems/top-k-frequent-elements/description/
 
 func topKFrequent(nums []int, k int) []int {
 	// map统计频率 key:int value value:frequent
-	fi := make(map[int]int)
+	helper := make(map[int]int)
 	for i := range nums {
-		fi[nums[i]]++
+		helper[nums[i]]++
 	}
 
 	max := 0
-	for i := range fi {
-		max = maxFunc(max, fi[i])
+	for i := range helper {
+		max = maxFunc(max, helper[i])
 	}
 	// 一维数组的下标是频率 一维数组里的数组是频率相同的数
-	arr := make([][]int, max+1, max+1)
-	for key := range fi {
-		frequent := fi[key]
-		arr[frequent] = append(arr[frequent], key)
+	bucket := make([][]int, max+1, max+1)
+	for key := range helper {
+		frequent := helper[key]
+		bucket[frequent] = append(bucket[frequent], key)
 	}
 
 	// 从二维数组中拿到数
 	result := make([]int, k, k)
 X:
-	for i, resultIndex := len(arr)-1, 0; i >= 0; i-- {
-		for j := 0; j < len(arr[i]); j++ {
-			result[resultIndex] = arr[i][j]
+	for i, resultIndex := len(bucket)-1, 0; i >= 0; i-- {
+		for j := 0; j < len(bucket[i]); j++ {
+			result[resultIndex] = bucket[i][j]
 			resultIndex++
 			if resultIndex == k {
 				break X

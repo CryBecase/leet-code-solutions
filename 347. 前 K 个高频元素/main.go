@@ -33,23 +33,23 @@ func topKFrequent(nums []int, k int) []int {
 	for i := range fi {
 		max = maxFunc(max, fi[i])
 	}
-	// 一维数组的index是频率 二维数组是频率相同的时候用的
+	// 一维数组的下标是频率 一维数组里的数组是频率相同的数
 	arr := make([][]int, max+1, max+1)
 	for key := range fi {
 		frequent := fi[key]
 		arr[frequent] = append(arr[frequent], key)
 	}
 
-	// 输出
+	// 从二维数组中拿到数
 	result := make([]int, k, k)
-	for i, ii := max, 0; k > 0; i-- {
-		length := len(arr[i])
-		k = k - length
-		for j := 0; length > 0; {
-			result[ii] = arr[i][j]
-			length--
-			j++
-			ii++
+X:
+	for i, resultIndex := len(arr)-1, 0; i >= 0; i-- {
+		for j := 0; j < len(arr[i]); j++ {
+			result[resultIndex] = arr[i][j]
+			resultIndex++
+			if resultIndex == k {
+				break X
+			}
 		}
 	}
 

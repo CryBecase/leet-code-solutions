@@ -7,7 +7,7 @@ https://leetcode-cn.com/problems/container-with-most-water/
 // 双指针
 // 小的指针往内移动
 func maxArea(height []int) int {
-	// result = right-left * max(left, right)
+	// result = right-left * min(left, right)
 	result := 0
 	left, right := 0, len(height)-1
 	for left < right {

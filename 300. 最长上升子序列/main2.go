@@ -14,7 +14,7 @@ func lengthOfLIS2(nums []int) int {
 			index++
 			minTail[index] = nums[i]
 		} else {
-			// 二分查找 找到一个最小的一个数 k 使得 minTail[k] < nums[i] 然后 minTail[k+1] = nums[i]
+			// 二分查找 找到一个最大的一个数 k 使得 minTail[k] < nums[i] 然后 minTail[k+1] = nums[i]
 			L, R, k := 0, index, -1
 			for L <= R {
 				mid := (L + R) >> 1

@@ -4,11 +4,9 @@ package main
 
 func minimumLengthEncoding(words []string) int {
 	result := 0
-	helper := make(map[string]int)
+	helper := make(map[string]bool, len(words))
 	for _, word := range words {
-		if _, ok := helper[word]; !ok {
-			helper[word] = 1
-		}
+		helper[word] = true
 	}
 	for word := range helper {
 		for i := 1; i < len(word); i++ {

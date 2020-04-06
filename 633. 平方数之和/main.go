@@ -1,6 +1,8 @@
 package main
 
-import "math"
+import (
+	"math"
+)
 
 /**
 https://leetcode-cn.com/problems/sum-of-square-numbers
@@ -20,22 +22,18 @@ https://leetcode-cn.com/problems/sum-of-square-numbers
 */
 
 func judgeSquareSum(c int) bool {
-	if c == 1 || c == 2 || c == 0 {
-		return true
-	}
-	small, big := 0, int(math.Sqrt(float64(c)))
-	for small <= big {
-		if small*small+big*big < c {
-			small++
-		} else if small*small+big*big == c {
-			return true
+	L, R := 0, int(math.Sqrt(float64(c)))
+	for L <= R {
+		if L*L+R*R < c {
+			L++
+		} else if L*L+R*R > c {
+			R--
 		} else {
-			big--
+			return true
 		}
 	}
 	return false
 }
 
 func main() {
-
 }

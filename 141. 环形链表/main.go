@@ -31,18 +31,21 @@ type ListNode struct {
 }
 
 func hasCycle(head *ListNode) bool {
-	if head == nil || head.Next == nil {
-		return false
-	}
-	slow, fast := head, head.Next
-	for slow != fast {
-		if slow == nil || fast == nil || fast.Next == nil {
-			return false
+	slow, fast := head, head
+	for fast != nil {
+		fast = fast.Next
+		if fast != nil {
+			fast = fast.Next
 		}
 		slow = slow.Next
-		fast = fast.Next.Next
+		if slow == fast {
+			if slow == nil {
+				return false
+			}
+			return true
+		}
 	}
-	return true
+	return false
 }
 
 func main() {

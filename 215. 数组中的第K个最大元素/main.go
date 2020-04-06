@@ -22,50 +22,52 @@ https://leetcode-cn.com/problems/kth-largest-element-in-an-array/
 // 左孩子 = 根 * 2
 // 右孩子 = 根 * 2 + 1
 // 根 = 孩子 / 2
-
 func findKthLargest(nums []int, k int) int {
-	if k > len(nums) {
+	if len(nums) < k {
 		return -1
 	}
+	minHeap := make([]int, 0, k)
 
-	maxHeap := make([]int, len(nums))
-	copy(maxHeap, nums)
-	for i := 0; i < len(nums); i++ {
-		heapInsert(maxHeap, i)
-	}
-
-	size := len(maxHeap)
 	for i := 0; i < k; i++ {
-		maxHeap[0], maxHeap[size-1] = maxHeap[size-1], maxHeap[0]
-		heapify(maxHeap, size-1)
-		size--
+		minHeap = append(minHeap, nums[i])
 	}
 
-	return maxHeap[len(maxHeap)-k]
+	for i := 0; i < k; i++ {
+		heapInsert(minHeap, i)
+	}
+
+	for i := k; i < len(nums); i++ {
+		if nums[i] > minHeap[0] {
+			minHeap[0] = nums[i]
+			heapify(minHeap)
+		}
+	}
+
+	return minHeap[0]
 }
 
-func heapInsert(maxHeap []int, i int) {
-	for maxHeap[i] > maxHeap[(i-1)/2] {
-		maxHeap[i], maxHeap[(i-1)/2] = maxHeap[(i-1)/2], maxHeap[i]
+func heapInsert(minHeap []int, i int) {
+	for minHeap[i] < minHeap[(i-1)/2] {
+		minHeap[i], minHeap[(i-1)/2] = minHeap[(i-1)/2], minHeap[i]
 		i = (i - 1) / 2
 	}
 }
 
-func heapify(maxHeap []int, size int) {
-	index := 0
-	left := index*2 + 1
-	for left < size {
-		largest := left
-		if left+1 < size && maxHeap[left+1] > maxHeap[left] {
-			largest = left + 1
+func heapify(minHeap []int) {
+	root := 0
+	left := 1
+	least := 1
+	for left < len(minHeap) {
+		if left+1 < len(minHeap) && minHeap[left+1] < minHeap[left] {
+			least = left + 1
 		}
-		if maxHeap[largest] < maxHeap[index] {
-			largest = index
+		if minHeap[least] >= minHeap[root] {
 			break
 		} else {
-			maxHeap[largest], maxHeap[index] = maxHeap[index], maxHeap[largest]
-			index = largest
-			left = index*2 + 1
+			minHeap[least], minHeap[root] = minHeap[root], minHeap[least]
+			root = least
+			left = root*2 + 1
+			least = left
 		}
 	}
 }

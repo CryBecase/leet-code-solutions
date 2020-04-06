@@ -19,44 +19,31 @@ https://leetcode-cn.com/problems/reverse-vowels-of-a-string
 */
 // a e i o u A E I O U
 func reverseVowels(s string) string {
-	sByte := []byte(s)
-	vowels := map[byte]interface{}{
-		'a': nil,
-		'e': nil,
-		'i': nil,
-		'o': nil,
-		'u': nil,
-		'A': nil,
-		'E': nil,
-		'I': nil,
-		'O': nil,
-		'U': nil,
+	if len(s) == 0 {
+		return s
 	}
-	L, R := 0, len(sByte)-1
-	for L < R {
-		for L < R {
-			// 找left
-			if _, ok := vowels[sByte[L]]; ok {
-				// 是元音
-				break
-			} else {
-				// 不是元音
-				L++
-			}
+	n := len(s) - 1
+	i := 0
+	ss := []byte(s)
+	for i < n {
+		if isaeiou(s[i]) && isaeiou(s[n]) {
+			ss[i], ss[n] = ss[n], ss[i]
+			i++
+			n--
+		} else if !isaeiou(s[i]) {
+			i++
+		} else if !isaeiou(s[n]) {
+			n--
 		}
-		for L < R {
-			// 找right
-			if _, ok := vowels[sByte[R]]; ok {
-				break
-			} else {
-				R--
-			}
-		}
-		sByte[L], sByte[R] = sByte[R], sByte[L]
-		L++
-		R--
 	}
-	return string(sByte)
+	return string(ss)
+}
+
+func isaeiou(s byte) bool {
+	if s == 'a' || s == 'A' || s == 'e' || s == 'E' || s == 'i' || s == 'I' || s == 'o' || s == 'O' || s == 'u' || s == 'U' {
+		return true
+	}
+	return false
 }
 
 func main() {

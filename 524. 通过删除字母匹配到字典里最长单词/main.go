@@ -36,10 +36,10 @@ func findLongestWord(s string, d []string) string {
 
 	result := ""
 	for i := range d {
-		p1, p2 := 0, 0
 		if len(d[i]) < len(result) {
 			continue
 		}
+		p1, p2 := 0, 0
 		for p1 < len(s) && p2 < len(d[i]) {
 			if s[p1] == d[i][p2] {
 				p2++

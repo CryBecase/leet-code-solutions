@@ -19,8 +19,7 @@ nums2 = [2,5,6],       n = 3
 输出: [1,2,2,3,5,6]
 */
 
-// 额外空间使用太多了。。
-// 归并排序中的merge 适用于nums1和nums2无序的情况
+// 从前向后
 func merge(nums1 []int, m int, nums2 []int, n int) {
 	helper := make([]int, 0, m+n)
 	m2, n2 := 0, 0
@@ -46,31 +45,29 @@ func merge(nums1 []int, m int, nums2 []int, n int) {
 
 // 从后往前
 func merge2(nums1 []int, m int, nums2 []int, n int) {
-	p1, p2 := m-1, m+n-1
-	n--
-	for p1 >= 0 && n >= 0 {
-		if nums1[p1] <= nums2[n] {
-			nums1[p2] = nums2[n]
-			n--
+	p1, p2, p := m-1, n-1, m+n-1
+	for p1 >= 0 && p2 >= 0 {
+		if nums1[p1] <= nums2[p2] {
+			nums1[p] = nums2[p2]
+			p--
 			p2--
 		} else {
-			nums1[p2] = nums1[p1]
+			nums1[p] = nums1[p1]
+			p--
 			p1--
-			p2--
 		}
 	}
 	for p1 >= 0 {
-		nums1[p2] = nums1[p1]
+		nums1[p] = nums1[p1]
+		p--
 		p1--
-		p2--
 	}
-	for n >= 0 {
-		nums1[p2] = nums2[n]
-		n--
+	for p2 >= 0 {
+		nums1[p] = nums2[p2]
+		p--
 		p2--
 	}
 }
-
 func main() {
 	nums1 := []int{1, 2, 3, 0, 0, 0}
 	nums2 := []int{2, 5, 6}

@@ -18,8 +18,47 @@ type ListNode struct {
 }
 
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
+	//挨个入栈
+	var l1Stack = make([]*ListNode, 0)
+	var l2Stack = make([]*ListNode, 0)
 
-	return nil
+	for l1 != nil {
+		l1Stack = append(l1Stack, l1)
+		l1 = l1.Next
+	}
+
+	for l2 != nil {
+		l2Stack = append(l2Stack, l2)
+		l2 = l2.Next
+	}
+
+	carry := 0
+	var node *ListNode
+	len1, len2 := len(l1Stack), len(l2Stack)
+	for len1 > 0 || len2 > 0 {
+		num1, num2 := 0, 0
+		if len1 > 0 {
+			num1 = l1Stack[len1-1].Val
+		}
+		if len2 > 0 {
+			num2 = l2Stack[len2-1].Val
+		}
+		total := num2 + num1
+
+		node = &ListNode{(total + carry) % 10, node}
+		if total+carry >= 10 {
+			carry = 1
+		} else {
+			carry = 0
+		}
+
+		len1--
+		len2--
+	}
+	if carry == 1 {
+		node = &ListNode{1, node}
+	}
+	return node
 }
 
 func main() {

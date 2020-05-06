@@ -4,9 +4,9 @@ package main
 
 func mincostTickets(days []int, costs []int) int {
 	memo := [366]int{}
-	dayM := map[int]bool{}
+	travel := map[int]bool{}
 	for _, d := range days {
-		dayM[d] = true
+		travel[d] = true
 	}
 
 	var dp func(day int) int
@@ -17,7 +17,7 @@ func mincostTickets(days []int, costs []int) int {
 		if memo[day] > 0 {
 			return memo[day]
 		}
-		if dayM[day] {
+		if travel[day] {
 			memo[day] = minFunc(minFunc(dp(day+1)+costs[0], dp(day+7)+costs[1]), dp(day+30)+costs[2])
 		} else {
 			memo[day] = dp(day + 1)

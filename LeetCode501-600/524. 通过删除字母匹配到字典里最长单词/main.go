@@ -35,24 +35,25 @@ func findLongestWord(s string, d []string) string {
 	}
 
 	result := ""
-	for i := range d {
-		if len(d[i]) < len(result) {
+	for _, str := range d {
+		if len(str) < len(result) {
 			continue
 		}
-		p1, p2 := 0, 0
-		for p1 < len(s) && p2 < len(d[i]) {
-			if s[p1] == d[i][p2] {
-				p2++
+		L, R := 0, 0
+		for L < len(s) && R < len(str) {
+			// 双指针遍历，看 s 中是否包含 str
+			if s[L] == str[R] {
+				R++
 			}
-			p1++
+			L++
 		}
-		if p2 == len(d[i]) {
-			// 可以通过删除s中的字母得到 d[i]
-			if len(d[i]) > len(result) {
-				result = d[i]
-			} else if len(d[i]) == len(result) {
-				if d[i] < result {
-					result = d[i]
+		if R == len(str) {
+			// s 中包含 str
+			if len(str) > len(result) {
+				result = str
+			} else if len(str) == len(result) {
+				if str < result {
+					result = str
 				}
 			}
 		}

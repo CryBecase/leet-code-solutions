@@ -1,7 +1,5 @@
 package main
 
-import "math"
-
 // https://leetcode-cn.com/problems/balanced-binary-tree/description/
 
 type TreeNode struct {
@@ -15,20 +13,27 @@ func isBalanced(root *TreeNode) bool {
 	if root == nil {
 		return true
 	}
-	if math.Abs(maxDepth(root.Left)-maxDepth(root.Right)) > 1 {
-		return false
-	}
-	return isBalanced(root.Left) && isBalanced(root.Right)
+	ok, _ := helper(root)
+	return ok
 }
 
-func maxDepth(root *TreeNode) float64 {
+func helper(root *TreeNode) (bool, int) {
 	if root == nil {
-		return 0
+		return true, 0
 	}
-	return maxFunc(maxDepth(root.Left), maxDepth(root.Right)) + 1
+	leftOk, leftDepth := helper(root.Left)
+	rightOk, rightDepth := helper(root.Right)
+	return leftOk && rightOk && abs(leftDepth, rightDepth) <= 1, maxFunc(leftDepth, rightDepth) + 1
 }
 
-func maxFunc(i, j float64) float64 {
+func abs(i, j int) int {
+	if i > j {
+		return i - j
+	}
+	return j - i
+}
+
+func maxFunc(i, j int) int {
 	if i > j {
 		return i
 	} else {

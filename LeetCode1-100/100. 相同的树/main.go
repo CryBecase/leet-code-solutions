@@ -9,10 +9,6 @@ type TreeNode struct {
 }
 
 func isSameTree(p *TreeNode, q *TreeNode) bool {
-	return preOrder(p, q)
-}
-
-func preOrder(p *TreeNode, q *TreeNode) bool {
 	if p == nil && q == nil {
 		return true
 	}
@@ -22,7 +18,7 @@ func preOrder(p *TreeNode, q *TreeNode) bool {
 	if p.Val != q.Val {
 		return false
 	}
-	return preOrder(p.Left, q.Left) && preOrder(p.Right, q.Right)
+	return isSameTree(p.Left, q.Left) && isSameTree(p.Right, q.Right)
 }
 
 func main() {

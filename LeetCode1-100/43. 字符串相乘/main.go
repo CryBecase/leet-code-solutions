@@ -15,12 +15,12 @@ func multiply(num1 string, num2 string) string {
 	p2 := len(num2) - 1
 	results := make([]string, 0)
 	for p2 >= 0 {
-		n2, _ := strconv.Atoi(string(num2[p2]))
+		n2 := int(num2[p2] - '0')
 		builder := strings.Builder{}
 		arr := make([]int, 0)
 		carry := 0
 		for p1 := len(num1) - 1; p1 >= 0; p1-- {
-			n1, _ := strconv.Atoi(string(num1[p1]))
+			n1 := int(num1[p1] - '0')
 			sum := n1*n2 + carry
 			n := sum % 10
 			carry = sum / 10
@@ -59,7 +59,7 @@ func multiply(num1 string, num2 string) string {
 		sum := carry
 		for i, p := range ptrs {
 			if p >= 0 {
-				n, _ := strconv.Atoi(string(results[i][p]))
+				n := int(results[i][p] - '0')
 				sum += n
 			}
 		}

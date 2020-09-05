@@ -24,7 +24,6 @@ func getPermutation(n int, k int) string {
 
 		// 未来要进入 path 的数字的全排列的个数
 		cnt := factorials[n-path.Len()-1]
-
 		for i := 1; i <= n; i++ {
 			if used[i] {
 				continue

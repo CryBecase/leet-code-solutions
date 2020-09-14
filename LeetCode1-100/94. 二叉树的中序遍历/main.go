@@ -8,13 +8,15 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
+// 颜色标记法 模拟递归
 func inorderTraversal(root *TreeNode) []int {
 	type coloredNode struct {
-		color int
+		color int // color 为 1 表示进入递归，为 0 表示执行操作
 		node  *TreeNode
 	}
 
 	stack := make([]*coloredNode, 0)
+
 	stack = append(stack, &coloredNode{
 		color: 1,
 		node:  root,

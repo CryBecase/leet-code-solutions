@@ -17,29 +17,37 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 		return 0
 	}
 
-	visited := make(map[string]struct{})
-	visited[beginWord] = struct{}{}
+	visited1 := make(map[string]struct{})
+	visited1[beginWord] = struct{}{}
+	visited2 := make(map[string]struct{})
+	visited2[endWord] = struct{}{}
 
-	queue := make([]string, 0)
-	queue = append(queue, beginWord)
+	queue1 := make([]string, 0)
+	queue1 = append(queue1, beginWord)
+	queue2 := make([]string, 0)
+	queue2 = append(queue2, endWord)
 
 	res := 1
-	for len(queue) > 0 {
-		queue2 := make([]string, 0)
-		for _, word := range queue {
+	for len(queue1) > 0 {
+		if len(queue1) > len(queue2) {
+			queue1, queue2 = queue2, queue1
+			visited1, visited2 = visited2, visited1
+		}
+		nextQueue := make([]string, 0)
+		for _, word := range queue1 {
 			wordBytes := []byte(word)
 			for j, c := range wordBytes {
 				// 把每个位置的字母都用 a ~ z 替换一下 看看能不能在字典中找到 构成一个边
 				for i := 'a'; i <= 'z'; i++ {
 					wordBytes[j] = byte(i)
 					w := string(wordBytes)
-					if _, ok := visited[w]; !ok {
+					if _, ok := visited1[w]; !ok {
 						// 没有走过
 						if _, ok := dic[w]; ok {
 							// 标记走过
-							queue2 = append(queue2, w)
-							visited[w] = struct{}{}
-							if w == endWord {
+							nextQueue = append(nextQueue, w)
+							visited1[w] = struct{}{}
+							if _, ok := visited2[w]; ok {
 								return res + 1
 							}
 						}
@@ -49,12 +57,12 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 				}
 			}
 		}
-		queue = queue2
+		queue1 = nextQueue
 		res++
 	}
 	return 0
 }
 
 func main() {
-	fmt.Println(ladderLength("hot", "dog", []string{"hot", "cog", "dog", "tot", "hog", "hop", "pot", "dot"}))
+	fmt.Println(ladderLength("hit", "cog", []string{"hot", "dot", "dog", "lot", "log"}))
 }

@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 // https://leetcode-cn.com/problems/move-zeroes/
 
 func moveZeroes(nums []int) {
@@ -29,7 +27,6 @@ func moveZeroes(nums []int) {
 			}
 		}
 	}
-	fmt.Println(nums)
 }
 
 func main() {
